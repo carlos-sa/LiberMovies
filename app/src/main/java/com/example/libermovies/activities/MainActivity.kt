@@ -1,4 +1,4 @@
-package com.example.libermovies
+package com.example.libermovies.activities
 
 import android.app.SearchManager
 import android.content.Intent
@@ -7,12 +7,24 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import androidx.recyclerview.widget.LinearLayoutManager
+import com.example.libermovies.Movie
+import com.example.libermovies.R
+import com.example.libermovies.adapters.MovieListAdapter
+import kotlinx.android.synthetic.main.activity_main.*
 
 class MainActivity : AppCompatActivity() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
+
+        val recyclerView = movies_rv
+        recyclerView.adapter = MovieListAdapter(createExampleMovieList(), this)
+
+        val layoutManager = LinearLayoutManager(this)
+        recyclerView.layoutManager = layoutManager
+
     }
 
     // Create menu items
@@ -59,5 +71,17 @@ class MainActivity : AppCompatActivity() {
     private fun doSearch(query: String) {
         // TODO: Insert here code to search on omdbapi
     }
+
+    private fun createExampleMovieList(): List<Movie> {
+        return listOf(
+            Movie("Batman Begins",
+                2005,9.5f,"https://m.media-amazon.com/images/M/MV5BZmUwNGU2ZmItMmRiNC00MjhlLTg5YWUtODMyNzkxODYzMmZlXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_SX300.jpg"),
+            Movie("Batman v Superman: Dawn of Justice",
+                2016, 6.2f, "https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg"),
+            Movie("Batman Returns",
+                1992, 7.1f,"https://m.media-amazon.com/images/M/MV5BOGZmYzVkMmItM2NiOS00MDI3LWI4ZWQtMTg0YWZkODRkMmViXkEyXkFqcGdeQXVyODY0NzcxNw@@._V1_SX300.jpg")
+        )
+    }
+
 
 }
