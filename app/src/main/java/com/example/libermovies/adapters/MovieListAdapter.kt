@@ -5,12 +5,15 @@ import androidx.recyclerview.widget.RecyclerView.ViewHolder
 import android.view.View
 import android.view.ViewGroup
 import android.content.Context
+import android.media.Image
 import android.view.LayoutInflater
 import android.widget.ImageView
 import android.widget.TextView
 import com.example.libermovies.Movie
 import com.example.libermovies.R
+import kotlinx.android.synthetic.main.activity_details.view.*
 import kotlinx.android.synthetic.main.movie_list_item.view.*
+import com.squareup.picasso.Picasso
 
 class MovieListAdapter(private val moviesList: List<Movie>, private val context: Context) : Adapter<MovieListAdapter.MovieViewHolder>() {
 
@@ -39,6 +42,7 @@ class MovieListAdapter(private val moviesList: List<Movie>, private val context:
             val titleTV: TextView = itemView.movie_item_title
             val yearTV: TextView = itemView.movie_item_year
             val favoriteIV: ImageView = itemView.movie_item_favorite_iv
+            val posterIV: ImageView = itemView.movie_item_poster_iv
 
             titleTV.text = movie.name
             yearTV.text = movie.year.toString()
@@ -47,6 +51,12 @@ class MovieListAdapter(private val moviesList: List<Movie>, private val context:
                 onFavoriteClick?.invoke(adapterPosition)
             }
 
+            loadPosterImage(movie.posterUrl, posterIV)
+
+        }
+
+        private fun loadPosterImage(url: String, posterIV: ImageView){
+            Picasso.with(context).load(url).into(posterIV)
         }
 
         // Set on click listener to movie item
