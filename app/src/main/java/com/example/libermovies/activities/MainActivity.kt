@@ -101,12 +101,26 @@ class MainActivity : AppCompatActivity(), MoviesFetchCallback {
 
     // Handle search queries
     private fun doSearch(query: String) {
+        showProgressBar()
         MovieDataProvider.searchMovies(query, this, this)
+    }
+
+    private fun showProgressBar() {
+        movies_rv.visibility = View.GONE
+        empty_state_tv.visibility = View.GONE
+        movie_search_pb.visibility = View.VISIBLE
+    }
+
+    private fun showEmptyState() {
+        movies_rv.visibility = View.GONE
+        empty_state_tv.visibility = View.VISIBLE
+        movie_search_pb.visibility = View.GONE
     }
 
     private fun showMovieList() {
         movies_rv.visibility = View.VISIBLE
         empty_state_tv.visibility = View.GONE
+        movie_search_pb.visibility = View.GONE
     }
 
     override fun onSearchDone() {
@@ -115,7 +129,8 @@ class MainActivity : AppCompatActivity(), MoviesFetchCallback {
     }
 
     override fun onSearchFailed() {
-        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
+        showEmptyState()
+        Toast.makeText(this, "Ocorreu um erro ao pesquisar, tente novamente mais tarde", Toast.LENGTH_LONG).show()
     }
 
 }
