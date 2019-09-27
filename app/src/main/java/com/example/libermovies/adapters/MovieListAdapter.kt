@@ -15,6 +15,7 @@ import kotlinx.android.synthetic.main.movie_list_item.view.*
 class MovieListAdapter(private val moviesList: List<Movie>, private val context: Context) : Adapter<MovieListAdapter.MovieViewHolder>() {
 
     var onItemClick: ((Int) -> Unit)? = null
+    var onFavoriteClick: ((Int) -> Unit)? = null
 
     // Override necessary methods of Custom Adapter
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
@@ -42,6 +43,9 @@ class MovieListAdapter(private val moviesList: List<Movie>, private val context:
             titleTV.text = movie.name
             yearTV.text = movie.year.toString()
             favoriteIV.setImageResource(if(movie.favorite) R.drawable.ic_heart_filled else R.drawable.ic_heart_outline)
+            favoriteIV.setOnClickListener {
+                onFavoriteClick?.invoke(adapterPosition)
+            }
 
         }
 

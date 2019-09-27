@@ -30,10 +30,18 @@ class MainActivity : AppCompatActivity() {
             gotoDetailsActivity(moviePosition)
         }
 
+        moviesAdapter.onFavoriteClick = { moviePosition:Int ->
+            addFavoriteMovie(moviePosition)
+        }
+
         recyclerView.adapter = moviesAdapter
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
+    }
+
+    private fun addFavoriteMovie(moviePosition: Int) {
+        println(moviePosition)
     }
 
     private fun gotoDetailsActivity(moviePosition: Int) {
