@@ -7,24 +7,33 @@ import android.os.Bundle
 import android.view.Menu
 import android.view.MenuInflater
 import android.view.MenuItem
+import android.view.View
+import android.widget.Toast
 import androidx.recyclerview.widget.LinearLayoutManager
 import com.example.libermovies.Movie
+import com.example.libermovies.MovieDataProvider
 import com.example.libermovies.R
 import com.example.libermovies.adapters.MovieListAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
-class MainActivity : AppCompatActivity() {
+interface MoviesFetchCallback {
+    fun onSearchDone()
+    fun onSearchFailed()
+}
+
+class MainActivity : AppCompatActivity(), MoviesFetchCallback {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
-        createMoviesRecyclerView()
+        MovieDataProvider.initVolleyQueue(this)
+
     }
 
-    private fun createMoviesRecyclerView() {
+    private fun createMoviesRecyclerView(moviesList: List<Movie>) {
         val recyclerView = movies_rv
-        val moviesAdapter = MovieListAdapter(createExampleMovieList(), this)
+        val moviesAdapter = MovieListAdapter(moviesList, this)
 
         moviesAdapter.onItemClick = { moviePosition:Int ->
             gotoDetailsActivity(moviePosition)
@@ -92,19 +101,33 @@ class MainActivity : AppCompatActivity() {
 
     // Handle search queries
     private fun doSearch(query: String) {
-        // TODO: Insert here code to search on omdbapi
+        MovieDataProvider.searchMovies(query, this, this)
+    }
+
+    private fun showMovieList() {
+        movies_rv.visibility = View.VISIBLE
+        empty_state_tv.visibility = View.GONE
+    }
+
+    override fun onSearchDone() {
+        createMoviesRecyclerView(MovieDataProvider.moviesList)
+        showMovieList()
+    }
+
+    override fun onSearchFailed() {
+        TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
     // Create Dummy list of Movies
     private fun createExampleMovieList(): List<Movie> {
         return listOf(
             Movie("Batman Begins",
-                2005,9.5f,
+                "2005",
                 "https://m.media-amazon.com/images/M/MV5BZmUwNGU2ZmItMmRiNC00MjhlLTg5YWUtODMyNzkxODYzMmZlXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_SX300.jpg", false),
             Movie("Batman v Superman: Dawn of Justice",
-                2016, 6.2f, "https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg", true),
+                "2016",  "https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg", true),
             Movie("Batman Returns",
-                1992, 7.1f,"https://m.media-amazon.com/images/M/MV5BOGZmYzVkMmItM2NiOS00MDI3LWI4ZWQtMTg0YWZkODRkMmViXkEyXkFqcGdeQXVyODY0NzcxNw@@._V1_SX300.jpg", false)
+                "1992", "https://m.media-amazon.com/images/M/MV5BOGZmYzVkMmItM2NiOS00MDI3LWI4ZWQtMTg0YWZkODRkMmViXkEyXkFqcGdeQXVyODY0NzcxNw@@._V1_SX300.jpg", false)
         )
     }
 

@@ -17,7 +17,7 @@ class DetailsActivity : AppCompatActivity() {
 
         // Create fake movie for mocking
         val movie = Movie("Batman Begins",
-            2005,9.5f,
+            "2005",
             "https://m.media-amazon.com/images/M/MV5BZmUwNGU2ZmItMmRiNC00MjhlLTg5YWUtODMyNzkxODYzMmZlXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_SX300.jpg", false)
 
         // Retrive movie position in movies list

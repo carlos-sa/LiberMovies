@@ -1,3 +1,3 @@
 package com.example.libermovies
 
-data class Movie(val name: String, val year: Int, val rating: Float, val posterUrl: String, val favorite: Boolean)
+data class Movie(val name: String, val year: String, val posterUrl: String, val favorite: Boolean)
