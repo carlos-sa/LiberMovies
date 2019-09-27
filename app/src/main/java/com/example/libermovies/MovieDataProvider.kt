@@ -8,6 +8,7 @@ import com.android.volley.toolbox.StringRequest
 import com.android.volley.Response
 import android.util.Log
 import com.example.libermovies.activities.MoviesFetchCallback
+import com.example.libermovies.activities.DetailsFetchCallback
 import org.json.JSONObject
 
 object MovieDataProvider {
@@ -39,12 +40,30 @@ object MovieDataProvider {
         volleyQueue.add(stringRequest)
     }
 
+    fun getMoviesDetails(id: String, context: Context, detailsFetchCallback: DetailsFetchCallback) {
+        val url = "http://www.omdbapi.com/?apiKey=" + context.getString(R.string.api_key) +
+                "&i=" + id + "&plot=full"
+
+        val stringRequest = StringRequest(Request.Method.GET, url,
+            Response.Listener<String> { response ->
+                detailsFetchCallback.onDetailsFetchDone(response)
+                println(response)
+            },
+            Response.ErrorListener { response ->
+                Log.e(TAG, "Error" + response)
+                detailsFetchCallback.onDetailsFetchFailed()
+            })
+
+        volleyQueue.add(stringRequest)
+    }
+
 
     private fun parseJsonAwnser(response: String) {
         val awnserJson = JSONObject(response)
         val movieArray = awnserJson.getJSONArray("Search")
         for (i in 0 until movieArray!!.length()) {
             val newMovie = Movie(
+                movieArray.getJSONObject(i).getString("imdbID"),
                 movieArray.getJSONObject(i).getString("Title"),
                 movieArray.getJSONObject(i).getString("Year"),
                 movieArray.getJSONObject(i).getString("Poster"),

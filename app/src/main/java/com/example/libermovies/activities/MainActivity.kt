@@ -118,18 +118,4 @@ class MainActivity : AppCompatActivity(), MoviesFetchCallback {
         TODO("not implemented") //To change body of created functions use File | Settings | File Templates.
     }
 
-    // Create Dummy list of Movies
-    private fun createExampleMovieList(): List<Movie> {
-        return listOf(
-            Movie("Batman Begins",
-                "2005",
-                "https://m.media-amazon.com/images/M/MV5BZmUwNGU2ZmItMmRiNC00MjhlLTg5YWUtODMyNzkxODYzMmZlXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_SX300.jpg", false),
-            Movie("Batman v Superman: Dawn of Justice",
-                "2016",  "https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg", true),
-            Movie("Batman Returns",
-                "1992", "https://m.media-amazon.com/images/M/MV5BOGZmYzVkMmItM2NiOS00MDI3LWI4ZWQtMTg0YWZkODRkMmViXkEyXkFqcGdeQXVyODY0NzcxNw@@._V1_SX300.jpg", false)
-        )
-    }
-
-
 }
