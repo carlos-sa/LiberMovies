@@ -31,9 +31,11 @@ object MovieDataProvider {
 
         val stringRequest = StringRequest(Request.Method.GET, url,
             Response.Listener<String> { response ->
-                parseJsonAwnser(response)
-                searchDoneInterface.onSearchDone(query)
                 println(response)
+                if (parseJsonAwnser(response))
+                    searchDoneInterface.onSearchDone(query)
+                else
+                    searchDoneInterface.onSearchFailed()
             },
             Response.ErrorListener { response ->
                 Log.e(TAG, "Error" + response)
@@ -81,8 +83,13 @@ object MovieDataProvider {
         return null
     }
 
-    private fun parseJsonAwnser(response: String) {
+    private fun parseJsonAwnser(response: String): Boolean {
         val awnserJson = JSONObject(response)
+        val awnserResponse = awnserJson.getBoolean(response)
+
+        if (!awnserResponse)
+            return false
+
         val movieArray = awnserJson.getJSONArray("Search")
         for (i in 0 until movieArray!!.length()) {
             val movie = findMovieById(movieArray.getJSONObject(i).getString("imdbID"))
@@ -98,5 +105,6 @@ object MovieDataProvider {
                 moviesList.add(movie)
 
         }
+        return true
     }
 }
