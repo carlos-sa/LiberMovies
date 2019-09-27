@@ -6,6 +6,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.content.Context
 import android.view.LayoutInflater
+import android.widget.ImageView
 import android.widget.TextView
 import com.example.libermovies.Movie
 import com.example.libermovies.R
@@ -13,6 +14,9 @@ import kotlinx.android.synthetic.main.movie_list_item.view.*
 
 class MovieListAdapter(private val moviesList: List<Movie>, private val context: Context) : Adapter<MovieListAdapter.MovieViewHolder>() {
 
+    var onItemClick: ((Int) -> Unit)? = null
+
+    // Override necessary methods of Custom Adapter
     override fun onBindViewHolder(holder: MovieViewHolder, position: Int) {
         holder.bindView(moviesList[position])
     }
@@ -26,15 +30,27 @@ class MovieListAdapter(private val moviesList: List<Movie>, private val context:
         return moviesList.size
     }
 
-    class MovieViewHolder(itemView:View) : ViewHolder(itemView) {
+    inner class MovieViewHolder(itemView:View) : ViewHolder(itemView) {
 
+        // Set the movie information on item view
         fun bindView(movie: Movie) {
 
-            val title: TextView = itemView.movie_item_title
-            val year: TextView = itemView.movie_item_year
+            val titleTV: TextView = itemView.movie_item_title
+            val yearTV: TextView = itemView.movie_item_year
+            val favoriteIV: ImageView = itemView.movie_item_favorite_iv
 
-            title.text = movie.name
-            year.text = movie.year.toString()
+            titleTV.text = movie.name
+            yearTV.text = movie.year.toString()
+            favoriteIV.setImageResource(if(movie.favorite) R.drawable.ic_heart_filled else R.drawable.ic_heart_outline)
+
         }
+
+        // Set on click listener to movie item
+        init {
+            itemView.setOnClickListener {
+                onItemClick?.invoke(adapterPosition)
+            }
+        }
+
     }
 }

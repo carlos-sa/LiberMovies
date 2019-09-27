@@ -19,12 +19,27 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
 
+        createMoviesRecyclerView()
+    }
+
+    private fun createMoviesRecyclerView() {
         val recyclerView = movies_rv
-        recyclerView.adapter = MovieListAdapter(createExampleMovieList(), this)
+        val moviesAdapter = MovieListAdapter(createExampleMovieList(), this)
+
+        moviesAdapter.onItemClick = { moviePosition:Int ->
+            gotoDetailsActivity(moviePosition)
+        }
+
+        recyclerView.adapter = moviesAdapter
 
         val layoutManager = LinearLayoutManager(this)
         recyclerView.layoutManager = layoutManager
+    }
 
+    private fun gotoDetailsActivity(moviePosition: Int) {
+        val intent = Intent(this, DetailsActivity::class.java)
+        intent.putExtra(DetailsActivity.MOVIE_POSITION, moviePosition)
+        startActivity(intent)
     }
 
     // Create menu items
@@ -72,14 +87,16 @@ class MainActivity : AppCompatActivity() {
         // TODO: Insert here code to search on omdbapi
     }
 
+    // Create Dummy list of Movies
     private fun createExampleMovieList(): List<Movie> {
         return listOf(
             Movie("Batman Begins",
-                2005,9.5f,"https://m.media-amazon.com/images/M/MV5BZmUwNGU2ZmItMmRiNC00MjhlLTg5YWUtODMyNzkxODYzMmZlXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_SX300.jpg"),
+                2005,9.5f,
+                "https://m.media-amazon.com/images/M/MV5BZmUwNGU2ZmItMmRiNC00MjhlLTg5YWUtODMyNzkxODYzMmZlXkEyXkFqcGdeQXVyNTIzOTk5ODM@._V1_SX300.jpg", false),
             Movie("Batman v Superman: Dawn of Justice",
-                2016, 6.2f, "https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg"),
+                2016, 6.2f, "https://m.media-amazon.com/images/M/MV5BYThjYzcyYzItNTVjNy00NDk0LTgwMWQtYjMwNmNlNWJhMzMyXkEyXkFqcGdeQXVyMTQxNzMzNDI@._V1_SX300.jpg", true),
             Movie("Batman Returns",
-                1992, 7.1f,"https://m.media-amazon.com/images/M/MV5BOGZmYzVkMmItM2NiOS00MDI3LWI4ZWQtMTg0YWZkODRkMmViXkEyXkFqcGdeQXVyODY0NzcxNw@@._V1_SX300.jpg")
+                1992, 7.1f,"https://m.media-amazon.com/images/M/MV5BOGZmYzVkMmItM2NiOS00MDI3LWI4ZWQtMTg0YWZkODRkMmViXkEyXkFqcGdeQXVyODY0NzcxNw@@._V1_SX300.jpg", false)
         )
     }
 

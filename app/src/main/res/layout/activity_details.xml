@@ -1,0 +1,199 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".activities.MainActivity">
+
+    <ImageView
+        android:id="@+id/details_poster_iv"
+        android:layout_width="@dimen/list_post_width"
+        android:layout_height="@dimen/list_poster_height"
+        android:layout_margin="@dimen/list_poster_margin"
+        android:src="@drawable/poster_placeholder"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toStartOf="parent"/>
+
+    <LinearLayout
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:layout_margin="@dimen/list_info_margin"
+        android:orientation="vertical"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintStart_toEndOf="@id/details_poster_iv"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/movie_details_director_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="@dimen/list_info_year_size"
+                android:text="@string/details_director_label" />
+
+            <TextView
+                android:id="@+id/movie_details_director_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/list_info_year_size"
+                android:text="James Gunn" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/movie_details_release_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="@dimen/list_info_year_size"
+                android:text="@string/details_release_label" />
+
+            <TextView
+                android:id="@+id/movie_details_release_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/list_info_year_size"
+                android:text="05 may 2017" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/movie_details_duration_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="@dimen/list_info_year_size"
+                android:text="@string/details_duration_label" />
+
+            <TextView
+                android:id="@+id/movie_details_duration_tv"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/list_info_year_size"
+                android:text="135 min" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/movie_details_genre_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="@dimen/list_info_year_size"
+                android:text="@string/details_genre_label" />
+
+            <TextView
+                android:id="@+id/movie_details_genre_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/list_info_year_size"
+                android:singleLine="false"
+                android:text="Action, Adventure, Comedy, Sci-Fi" />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/movie_details_cast_label"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:textStyle="bold"
+                android:textSize="@dimen/list_info_year_size"
+                android:text="@string/details_cast_label" />
+
+            <TextView
+                android:id="@+id/movie_details_cast_tv"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:textSize="@dimen/list_info_year_size"
+                android:singleLine="false"
+                android:text="Chris Pratt, Zoe Saldana, Dave Bautista, Vin Diesel." />
+
+        </LinearLayout>
+
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/plot_ll"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        app:layout_constraintTop_toBottomOf="@id/details_poster_iv"
+        app:layout_constraintStart_toStartOf="parent">
+
+        <TextView
+            android:id="@+id/movie_details_plot_label"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/list_info_year_size"
+            android:textAlignment="center"
+            android:textStyle="bold"
+            android:singleLine="false"
+            android:text="@string/detail_plot_label" />
+
+        <TextView
+            android:id="@+id/movie_details_plot_tv"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/list_info_year_size"
+            android:singleLine="false"
+            android:textAlignment="center"
+            android:text="After saving Xandar from Ronan's wrath, the Guardians are now recognized as heroes. Now the team must help their leader Star Lord (Chris Pratt) uncover the truth behind his true heritage. Along the way, old foes turn to allies and betrayal is blooming. And the Guardians find that they are up against a devastating new menace who is out to rule the galaxy." />
+
+    </LinearLayout>
+
+
+    <ImageView
+        android:id="@+id/movie_details_favorite_iv"
+        android:layout_width="@dimen/movie_detail_favorite_iv"
+        android:layout_height="@dimen/movie_detail_favorite_iv"
+        android:layout_marginStart="@dimen/list_info_favorite_margin_start"
+        android:src="@drawable/ic_heart_outline"
+        android:tint="@color/colorAccent"
+        android:scaleType="fitCenter"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toTopOf="@+id/details_rating"
+        app:layout_constraintTop_toBottomOf="@+id/plot_ll"/>
+
+    <RatingBar
+        android:id="@+id/details_rating"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:isIndicator="true"
+        android:numStars="5"
+        android:progressBackgroundTint="@color/colorDarkGrey"
+        android:progressTint="@color/colorGold"
+        android:rating="2.5"
+        android:saveEnabled="false"
+        android:secondaryProgressTint="@color/colorDarkGrey"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -3,4 +3,10 @@
 
     <string name="search_hint">Pesquisar filmes..</string>
     <string name="search">Pesquisar</string>
+    <string name="details_director_label">Diretor:</string>
+    <string name="details_release_label">Lançamento:</string>
+    <string name="details_duration_label">Duração:</string>
+    <string name="details_genre_label">Gênero:</string>
+    <string name="details_cast_label">Elenco:</string>
+    <string name="detail_plot_label">Enredo</string>
 </resources>

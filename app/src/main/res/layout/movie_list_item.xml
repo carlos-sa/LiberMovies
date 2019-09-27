@@ -42,6 +42,7 @@
                     tools:text="1994" />
 
                 <ImageView
+                    android:id="@+id/movie_item_favorite_iv"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:layout_marginStart="@dimen/list_info_favorite_margin_start"

@@ -8,4 +8,5 @@
     <dimen name="list_info_title_size">22sp</dimen>
     <dimen name="list_info_year_size">14sp</dimen>
     <dimen name="list_info_favorite_margin_start">5dp</dimen>
+    <dimen name="movie_detail_favorite_iv">60dp</dimen>
 </resources>
