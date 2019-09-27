@@ -85,7 +85,7 @@ object MovieDataProvider {
 
     private fun parseJsonAwnser(response: String): Boolean {
         val awnserJson = JSONObject(response)
-        val awnserResponse = awnserJson.getBoolean(response)
+        val awnserResponse = awnserJson.getBoolean("Response")
 
         if (!awnserResponse)
             return false
