@@ -17,11 +17,13 @@ import com.example.libermovies.adapters.MovieListAdapter
 import kotlinx.android.synthetic.main.activity_main.*
 
 interface MoviesFetchCallback {
-    fun onSearchDone()
+    fun onSearchDone(query: String)
     fun onSearchFailed()
 }
 
 class MainActivity : AppCompatActivity(), MoviesFetchCallback {
+
+    lateinit var moviesAdapter: MovieListAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -33,7 +35,7 @@ class MainActivity : AppCompatActivity(), MoviesFetchCallback {
 
     private fun createMoviesRecyclerView(moviesList: List<Movie>) {
         val recyclerView = movies_rv
-        val moviesAdapter = MovieListAdapter(moviesList, this)
+        moviesAdapter = MovieListAdapter(moviesList, this)
 
         moviesAdapter.onItemClick = { moviePosition:Int ->
             gotoDetailsActivity(moviePosition)
@@ -50,6 +52,11 @@ class MainActivity : AppCompatActivity(), MoviesFetchCallback {
     }
 
     private fun addFavoriteMovie(moviePosition: Int) {
+        MovieDataProvider.setFavoriteMovie(moviePosition)
+        moviesAdapter.notifyDataSetChanged()
+        if (MovieDataProvider.moviesList.isEmpty() &&
+                MovieDataProvider.favoriteMoviesList.isEmpty())
+            showEmptyState()
         println(moviePosition)
     }
 
@@ -57,6 +64,12 @@ class MainActivity : AppCompatActivity(), MoviesFetchCallback {
         val intent = Intent(this, DetailsActivity::class.java)
         intent.putExtra(DetailsActivity.MOVIE_POSITION, moviePosition)
         startActivity(intent)
+    }
+
+    override fun onResume() {
+        if (::moviesAdapter.isInitialized) moviesAdapter.notifyDataSetChanged()
+
+        super.onResume()
     }
 
     // Create menu items
@@ -76,6 +89,10 @@ class MainActivity : AppCompatActivity(), MoviesFetchCallback {
                 onSearchButton()
                 true
             }
+            R.id.clear_button -> {
+                onClearButton()
+                true
+            }
             else -> super.onOptionsItemSelected(item)
         }
     }
@@ -84,6 +101,18 @@ class MainActivity : AppCompatActivity(), MoviesFetchCallback {
     private fun onSearchButton() {
         println("On Search Requested")
         onSearchRequested()
+    }
+
+    // Clear Button handler, clears movie result list
+    private fun onClearButton() {
+        MovieDataProvider.moviesList.clear()
+        if (MovieDataProvider.favoriteMoviesList.isEmpty())
+            showEmptyState()
+        else {
+            showMovieList()
+            createMoviesRecyclerView(MovieDataProvider.favoriteMoviesList)
+            movie_list_title.text = "Seus filmes favoritos"
+        }
     }
 
     // Receive new intents to this activity
@@ -106,25 +135,26 @@ class MainActivity : AppCompatActivity(), MoviesFetchCallback {
     }
 
     private fun showProgressBar() {
-        movies_rv.visibility = View.GONE
+        movies_ll.visibility = View.GONE
         empty_state_tv.visibility = View.GONE
         movie_search_pb.visibility = View.VISIBLE
     }
 
     private fun showEmptyState() {
-        movies_rv.visibility = View.GONE
+        movies_ll.visibility = View.GONE
         empty_state_tv.visibility = View.VISIBLE
         movie_search_pb.visibility = View.GONE
     }
 
     private fun showMovieList() {
-        movies_rv.visibility = View.VISIBLE
+        movies_ll.visibility = View.VISIBLE
         empty_state_tv.visibility = View.GONE
         movie_search_pb.visibility = View.GONE
     }
 
-    override fun onSearchDone() {
+    override fun onSearchDone(query: String) {
         createMoviesRecyclerView(MovieDataProvider.moviesList)
+        movie_list_title.text = "Exibindo resultados: $query"
         showMovieList()
     }
 

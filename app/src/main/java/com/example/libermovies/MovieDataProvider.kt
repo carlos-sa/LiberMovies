@@ -16,6 +16,7 @@ object MovieDataProvider {
     lateinit var volleyQueue: RequestQueue
     var TAG = "MOVIE_DATA_PROVIDER"
     var moviesList = mutableListOf<Movie>()
+    var favoriteMoviesList = mutableListOf<Movie>()
 
     fun initVolleyQueue(context: Context) {
         volleyQueue = Volley.newRequestQueue(context)
@@ -23,13 +24,15 @@ object MovieDataProvider {
 
     fun searchMovies(query: String, context: Context, searchDoneInterface: MoviesFetchCallback) {
 
+        moviesList.clear()
+
         val url = "http://www.omdbapi.com/?apiKey=" + context.getString(R.string.api_key) +
                 "&s=" + query
 
         val stringRequest = StringRequest(Request.Method.GET, url,
             Response.Listener<String> { response ->
                 parseJsonAwnser(response)
-                searchDoneInterface.onSearchDone()
+                searchDoneInterface.onSearchDone(query)
                 println(response)
             },
             Response.ErrorListener { response ->
@@ -57,19 +60,43 @@ object MovieDataProvider {
         volleyQueue.add(stringRequest)
     }
 
+    fun setFavoriteMovie(moviePosition: Int) {
+        val movie: Movie
+        if (!moviesList.isEmpty())
+            movie = moviesList[moviePosition]
+        else
+            movie = favoriteMoviesList[moviePosition]
+        movie.favorite = !movie.favorite
+        if (movie.favorite)
+            favoriteMoviesList.add(movie)
+        else
+            favoriteMoviesList.remove(movie)
+    }
+
+    private fun findMovieById(movieId: String): Movie? {
+        for (i in 0 until favoriteMoviesList.size) {
+            if (movieId == favoriteMoviesList[i].id)
+                return favoriteMoviesList[i]
+        }
+        return null
+    }
 
     private fun parseJsonAwnser(response: String) {
         val awnserJson = JSONObject(response)
         val movieArray = awnserJson.getJSONArray("Search")
         for (i in 0 until movieArray!!.length()) {
-            val newMovie = Movie(
-                movieArray.getJSONObject(i).getString("imdbID"),
-                movieArray.getJSONObject(i).getString("Title"),
-                movieArray.getJSONObject(i).getString("Year"),
-                movieArray.getJSONObject(i).getString("Poster"),
-                false)
+            val movie = findMovieById(movieArray.getJSONObject(i).getString("imdbID"))
+            if (movie == null) {
+                val newMovie = Movie(
+                    movieArray.getJSONObject(i).getString("imdbID"),
+                    movieArray.getJSONObject(i).getString("Title"),
+                    movieArray.getJSONObject(i).getString("Year"),
+                    movieArray.getJSONObject(i).getString("Poster"),
+                    false)
+                moviesList.add(newMovie)
+            } else
+                moviesList.add(movie)
 
-            moviesList.add(newMovie)
         }
     }
 }

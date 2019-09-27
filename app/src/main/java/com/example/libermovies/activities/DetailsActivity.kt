@@ -40,6 +40,18 @@ class DetailsActivity : AppCompatActivity(), DetailsFetchCallback {
         MovieDataProvider.getMoviesDetails(movie.id, this, this)
         Picasso.with(this).load(movie.posterUrl).into(details_poster_iv)
 
+        movie_details_favorite_iv.setImageResource(if(movie.favorite) R.drawable.ic_heart_filled else R.drawable.ic_heart_outline)
+        movie_details_favorite_iv.setOnClickListener{
+            onFavoriteClicked(moviePosition)
+        }
+
+    }
+
+    private fun onFavoriteClicked(moviePosition: Int) {
+        MovieDataProvider.setFavoriteMovie(moviePosition)
+        movie_details_favorite_iv.setImageResource(
+            if(MovieDataProvider.moviesList.get(moviePosition).favorite) R.drawable.ic_heart_filled
+            else R.drawable.ic_heart_outline)
     }
 
     private fun parseJsonAwnser(response: String) {
